@@ -1,0 +1,9 @@
+samenvatting
+summary1=wie is merijn
+summary2=werkervaring
+summary3=skills
+contentsummary1="Ik ben een leergierige jongen. Open en goede onderlinge verhoudingen vind ik belangrijk. Met feedback ga ik constructief om."
+contentsummary2="In mijn korte carriere heb ik bedrijven van verschillende omvangen meegemaakt en bekeken vanuit meerdere lenzen. Startup, scale-up, MKB en grote instituten. Daarmee heb ik een solide werkbasis ontwikkeld."
+contentsummary3="Vaardig met computers. O.a. python, C, VBA, html/css code schrik ik niet van. Master in bedrijfskunde met focus op gezondheidszorg. Daarnaast bachelor bedrijskunde afgerond met een focus op technology management.
+
+

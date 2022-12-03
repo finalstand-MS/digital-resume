@@ -1,1 +1,23 @@
+/*@import url('https://fonts.googleapis.co/css2?family=
+:wght@300;400;500;600;700&display=swap');*/
 
+/*
+anybody
+volkorn
+Alegreya
+Rokkitt
+Commissioner
+*/
+
+@import url('https://fonts.googleapis.co/css2?family=anybody:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.co/css2?family=volkorn:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.co/css2?family==alegreya:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.co/css2?family=rokkitt:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.co/css2?family=commissioner:wght@300;400;500;600;700&display=swap');
+
+*{font-family: 'Commissioner'}
+
+.columns{margin: 0 auto;
+
+
+}

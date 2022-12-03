@@ -1,7 +1,13 @@
 from pathlib import Path
 
+import csv
+import cv2
+import pyglet
 import streamlit  as st
+#HTML importer
+import codecs 
 from PIL import Image
+import webbrowser
 
 # ---- PATH SETTINGS ----
 
@@ -10,18 +16,13 @@ css_file = current_dir / "styles" / "main.css"
 
 
 
-resume_file = current_dir / "assets" / "resume.pdf"
+resume_file = current_dir / "assets" / "Schakelaar 21-11-2022 CV.pdf"
 profile_pic = current_dir / "assets" / "MS-768x768.jpeg"
 
 
+# ---- html_header ----
 
-
-
-
-
-
-
-
+# to open/create a new html file in the write mode
 
 # ---- GENERAL SETTINGS ----
 
@@ -32,16 +33,37 @@ DESCRIPTION = """
 Zorgbedrijfskundige.
 """
 EMAIL = "mschakelaar@gmail.com"
+MTEL = "0621822744"
 SOCIAL_MEDIA = {
     "LinkedIn": "https://www.linkedin.com/in/merijn-schakelaar-25767791/",
+    "Twitter": "https://twitter.com/MSchakelaar",
 }
+
+PERSOONSGEGEVENS = ["Merijn Schakelaar", "Van Speykstraat 44a", "06-21822744", "mschakelaar@gmail.com","19-09-1994", "Groningen"]
+LYVUP = {'werkzaamheden':
+            {'Customer Value Propositions ontwikkelen': ['Van een product uit de wetenschap een commercieel product maken. Zo stond er binnen twee week een verkoopklaar product.', 'In de gezondheidszorg kan het een puzzel zijn om achter de échte klant te komen. Wie betaalt, wie gebruikt en wie profiteert? Door brainstorming hebben we een strategie ontwikkeld.'],
+            'Ontwikkelprocess versnellen': ['Development proces verbeteren en versnellen. Procesoptimalisatie. Bijv: het toevoegen van iterative ontwikkelcyclussen.  Eerder testen van concepten i.c.m. marktvraag.'],
+            'Branding': ['Ontwikkelen van nieuwe website-feel & look. De transitie ontwerpen en uitvoeren van een informatieve website naar een commerciele website.', 'Schrijven van content-uitingen. de balans vinden tussen een boodschap die aansluit bij commerciele klanten en klanten uit de gezondheidszorg.']
+            }
+        }
+
+#FINALSTAND_WERKZAAMHEDEN=[]
+#RIJKSUNIVERSITEIT_WERKZAAMHEDEN=[]
+#BELSIMPEL_WERKZAAMHEDEN=[]
+
+
+
+
 PROJECTS = {
-"🏆excel models (build a determanistic model determining QALY for pneumococcal disease)",
-"🏆devised commercial product (wellness-scan for organisations)",
-"🏆website-upgrade Lyvup",
-"🏆pilot finalstand"
+    "🏆 Sales Dashboard - Comparing sales across three stores": "",
+    "🏆 Income and Expense Tracker - Web app with NoSQL database": "",
+    "🏆 Desktop Application - Excel2CSV converter with user settings & menubar": "",
+    "🏆 MyToolBelt - Custom MS Excel add-in to combine Python & Excel": "",
 }
-st.set_page_config(page_title=PAGE_TITLE, page_icon=PAGE_ICON)
+
+# ---- start pagina ----
+
+st.set_page_config(page_title=PAGE_TITLE, page_icon=PAGE_ICON, layout="wide")
 
 
 # --- LOAD CSS, PDF & PROFIL PIC ---
@@ -54,18 +76,61 @@ profile_pic = Image.open(profile_pic)
 # --- HERO SECTION ---
 col1, col2 = st.columns(2, gap="small")
 with col1:
-    st.image(profile_pic, width=230)
+    st.image(profile_pic, width=330)
 
 with col2:
     st.title(NAME)
     st.write(DESCRIPTION)
     st.download_button(
-        label=" 📄 Download Resume",
+        label=" 📄 Download CV",    
         data=PDFbyte,
         file_name=resume_file.name,
         mime="application/octet-stream",
     )
     st.write("📫", EMAIL)
+    st.write("Tel:", MTEL)
+
+# ---- whitespace ----
+whitespace=st.markdown('##')
+whitespace=st.markdown('##')
+# ---- samenvatting ----
+
+col1samenvatting, col2samenvatting, col3samenvatting = st.columns([8,10,8],gap="small")
+
+col_samenvattingh1=" Merijn"
+col_samenvattingh2="Werkervaring"
+col_samenvattingh3="Eigenschappen"
+col_samenvatting1="Ik ben een leergierige jongen. Ik ga graag open en rechtstreeks om met mijn teamgenoten. Wees niet bang om mij op te zadelen met veel nieuwe informatie, dat vind ik alleen maar leuk en uitdagend!"
+col_samenvatting2="In mijn korte carriere heb ik bedrijven van verschillende omvangen meegemaakt en bekeken vanuit meerdere lenzen. Startup, scale-up, MKB en grote instituten. Daarmee heb ik een solide werkbasis ontwikkeld."
+col_samenvatting3="Vaardig met computers. O.a. python, C, VBA, html/css code schrik ik niet van. Master in bedrijfskunde met focus op gezondheidszorg. Daarnaast bachelor bedrijskunde afgerond met een focus op technology management."
+
+with col1samenvatting:
+   st.header(col_samenvattingh1)
+   st.write(col_samenvatting1)
+
+with col2samenvatting: 
+    st.header(col_samenvattingh2)   
+    st.write(col_samenvatting2)
+
+with col3samenvatting:
+    st.header(col_samenvattingh3)
+    st.write(col_samenvatting3)
+
+# ---- whitespace ----
+
+whitespace=st.markdown('##')
+whitespace=st.markdown('##')
+whitespace=st.markdown('##')
+
+# ---- persoonsgegevens button ----
+
+if st.button('Persoonsgegevens'):
+    i = 0
+    while i < len(PERSOONSGEGEVENS):
+        st.write(PERSOONSGEGEVENS[i])
+        i = i + 1
+    st.button('Close')
+else: st.write()
 
 
 # --- SOCIAL LINKS ---
@@ -73,91 +138,3 @@ st.write('\n')
 cols = st.columns(len(SOCIAL_MEDIA))
 for index, (platform, link) in enumerate(SOCIAL_MEDIA.items()):
     cols[index].write(f"[{platform}]({link})")
-
-
-# --- EXPERIENCE & QUALIFICATIONS ---
-st.write('\n')
-st.subheader("Experience & Qulifications")
-st.write(
-    """
-- ✔️ 7 Years expereince extracting actionable insights from data
-- ✔️ Strong hands on experience and knowledge in Python and Excel
-- ✔️ Good understanding of statistical principles and their respective applications
-- ✔️ Excellent team-player and displaying strong sense of initiative on tasks
-"""
-)
-
-
-# --- SKILLS ---
-st.write('\n')
-st.subheader("Hard Skills")
-st.write(
-    """
-- 👩‍💻 Programming: Python (Scikit-learn, Pandas), SQL, VBA
-- 📊 Data Visulization: PowerBi, MS Excel, Plotly
-- 📚 Modeling: Logistic regression, linear regression, decition trees
-- 🗄️ Databases: Postgres, MongoDB, MySQL
-"""
-)
-
-
-# --- WORK HISTORY ---
-st.write('\n')
-st.subheader("Work History")
-st.write("---")
-
-# --- JOB 1
-st.write("🚧", "**Senior Data Analyst | Ross Industries**")
-st.write("02/2020 - Present")
-st.write(
-    """
-- ► Used PowerBI and SQL to redeﬁne and track KPIs surrounding marketing initiatives, and supplied recommendations to boost landing page conversion rate by 38%
-- ► Led a team of 4 analysts to brainstorm potential marketing and sales improvements, and implemented A/B tests to generate 15% more client leads
-- ► Redesigned data model through iterations that improved predictions by 12%
-"""
-)
-
-# --- JOB 2
-st.write('\n')
-st.write("🚧", "**Data Analyst | Liberty Mutual Insurance**")
-st.write("01/2018 - 02/2022")
-st.write(
-    """
-- ► Built data models and maps to generate meaningful insights from customer data, boosting successful sales eﬀorts by 12%
-- ► Modeled targets likely to renew, and presented analysis to leadership, which led to a YoY revenue increase of $300K
-- ► Compiled, studied, and inferred large amounts of data, modeling information to drive auto policy pricing
-"""
-)
-
-# --- JOB 3
-st.write('\n')
-st.write("🚧", "**Data Analyst | Chegg**")
-st.write("04/2015 - 01/2018")
-st.write(
-    """
-- ► Devised KPIs using SQL across company website in collaboration with cross-functional teams to achieve a 120% jump in organic traﬃc
-- ► Analyzed, documented, and reported user survey results to improve customer communication processes by 18%
-- ► Collaborated with analyst team to oversee end-to-end process surrounding customers' return data
-"""
-)
-
-
-# --- Projects & Accomplishments ---
-st.write('\n')
-st.subheader("Projects & Accomplishments")
-st.write("---")
-for project, link in PROJECTS.items():
-    st.write(f"[{project}]({link})")
-
-
-
-
-
-# ---- HEADER SECTION ----
-
-
-
-st.subheader("Hoi, ik ben Merijn :wave:.")
-st.title("Een website om mijzelf te verkopen aan bedrijven")
-st.write("Ik ben een gepassioneerde wereldverbeteraar.")
-st.write("[Blog >](mschakelaar.blogspot.com)")
