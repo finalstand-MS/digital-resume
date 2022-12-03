@@ -1,8 +1,6 @@
 from pathlib import Path
 
 import csv
-import cv2
-import pyglet
 import streamlit  as st
 #HTML importer
 import codecs 
